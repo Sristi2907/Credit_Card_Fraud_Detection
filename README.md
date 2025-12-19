@@ -1,9 +1,5 @@
 # Credit_Card_Fraud_Detection
 Credit Card Fraud Detection using Machine Learning (XGBoost) with class imbalance handling, ROC-AUC and Precision-Recall based threshold optimization.
-# Credit Card Fraud Detection
-
-This project focuses on detecting fraudulent credit card transactions using machine learning techniques.  
-The dataset is highly imbalanced, so advanced evaluation metrics and threshold optimization are used.
 
 ## 🔹 Dataset
 - Credit Card Transactions Dataset
