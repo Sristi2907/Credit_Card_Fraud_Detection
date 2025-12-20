@@ -18,28 +18,6 @@ from sklearn.metrics import (
 )
 from xgboost import XGBClassifier, plot_importance
 
-
-# ==================== CONFUSION MATRIX PLOT FUNCTION ====================
-
-def plot_conf_matrix(y_true, y_pred, title):
-    cm = confusion_matrix(y_true, y_pred)
-
-    plt.figure(figsize=(4, 3))
-    sns.heatmap(
-        cm,
-        annot=True,
-        fmt="d",
-        cmap="Blues",
-        xticklabels=["Normal", "Fraud"],
-        yticklabels=["Normal", "Fraud"]
-    )
-    plt.xlabel("Predicted Label")
-    plt.ylabel("Actual Label")
-    plt.title(title)
-    plt.tight_layout()
-    plt.show()
-
-
 # ==================== LOAD DATA ====================
 
 print("Loading dataset...")
@@ -48,7 +26,6 @@ df = pd.read_csv(r"D:\Credit_Card_Fraud_detection\creditcard.csv")
 
 # =================== Imbalance check ===================
 print(df['Class'].value_counts())
-
 sns.countplot(x='Class', data=df)
 plt.title("Class Distribution (Fraud vs Non-Fraud)")
 plt.show()
@@ -56,6 +33,9 @@ plt.show()
 # Features and target
 X = df.drop("Class", axis=1)   #Independent variable
 y = df["Class"]               #Dependent variable
+
+
+
 
 
 # ==================== TRAIN TEST SPLIT ====================
@@ -125,10 +105,9 @@ xgb_preds = (xgb_probs >= best_threshold).astype(int)
 
  
 # ==================== EVALUATION ====================
-plot_conf_matrix(y_test, xgb_preds, "Confusion Matrix - XGBoost")
+
 print("\n=====  XGBoost Results =====")
 print(confusion_matrix(y_test, xgb_preds))
-
 print(classification_report(y_test, xgb_preds, digits=4))
 
 
@@ -139,9 +118,27 @@ auc_score = roc_auc_score(y_test, xgb_probs)
 print("ROC-AUC:", roc_auc_score(y_test, xgb_probs))
 
 
+# ==================== CONFUSION MATRIX PLOTTING FUNCTION ====================
+def plot_conf_matrix(y_true, y_pred, title):
+    cm = confusion_matrix(y_true, y_pred)
+
+    plt.figure(figsize=(4, 3))
+    sns.heatmap(
+        cm,
+        annot=True,
+        fmt="d",
+        cmap="Blues",
+        xticklabels=["Normal", "Fraud"],
+        yticklabels=["Normal", "Fraud"]
+    )
+    plt.xlabel("Predicted Label")
+    plt.ylabel("Actual Label")
+    plt.title(title)
+    plt.tight_layout()
+    plt.show()
 
 
-# ==================== ROC CURVE ====================
+# ==================== ROC CURVE PLOT ====================
 
 
 plt.figure(figsize=(6, 4))
@@ -182,3 +179,15 @@ joblib.dump(scaler, "scaler.pkl")
 joblib.dump(X.columns.tolist(), "feature_names.pkl")
 
 print("\n Models saved successfully for deployment!")
+    
+
+
+
+
+
+
+
+
+
+
+
